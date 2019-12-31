@@ -32,8 +32,8 @@ You can then bring these simple reactive stores into your Svelte components:
 <div>z (x + y): {$sv.z}</div>
 
 <div>
-  <button on:click={() => (sv.x += 1)}>Increment X</button>
-  <button on:click={() => (sv.y += 1)}>Increment Y</button>
+  <button on:click={() => ($sv.x += 1)}>Increment X</button>
+  <button on:click={() => ($sv.y += 1)}>Increment Y</button>
 </div>
 ```
 

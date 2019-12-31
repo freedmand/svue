@@ -47,7 +47,10 @@ export class Svue {
         set(newValue) {
           w.set(newValue);
           this.pingSubscriptions();
-        }
+        },
+        subscribe(fn) {
+          w.subscribe(fn);
+        },
       })
     });
   }
@@ -68,7 +71,10 @@ export class Svue {
         Object.defineProperty(this, key, {
           get() {
             return get(d);
-          }
+          },
+          subscribe(fn) {
+            d.subscribe(fn);
+          },
         });
         keys.splice(i, 1);
         i--;
@@ -78,14 +84,17 @@ export class Svue {
   }
 
   set(key, value) {
-    if (this.data[key] == null) {
+    if (key instanceof Svue) {
+      return; // Already set (may be a bug in Svelte)
+    }
+    if (this.writables[key] == null) {
       throw new Error(`Invalid key: ${key}`);
     }
-    this.data[key].set(value);
+    this.writables[key].set(value);
     this.pingSubscriptions();
   }
 
   get(key) {
-    return get(this.data[key]);
+    return get(this.writables[key]);
   }
 }

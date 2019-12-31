@@ -4,7 +4,8 @@ export const sv = new Svue({
   data() {
     return {
       x: 2,
-      y: 3
+      y: 3,
+      name: 'Bob',
     }
   },
   computed: {
@@ -14,6 +15,9 @@ export const sv = new Svue({
     z(x, y) {
       return x + y;
     },
+    greeting(name) {
+      return `Hello ${name}!`;
+    }
   }
 });
 
