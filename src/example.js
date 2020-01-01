@@ -1,4 +1,5 @@
 import { Svue } from './svue';
+import { tweened } from 'svelte/motion';
 
 export const sv = new Svue({
   data() {
@@ -6,6 +7,7 @@ export const sv = new Svue({
       x: 2,
       y: 3,
       name: 'Bob',
+      tweened: tweened(0)
     }
   },
   computed: {

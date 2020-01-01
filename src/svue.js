@@ -7,6 +7,11 @@ function getParamNames(func) {
   const fnStr = func.toString().replace(STRIP_COMMENTS, '');
   const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
   if (result === null) return [];
+
+  // Personal additions to handle arrow functions
+  const arrowIdx = result.indexOf('=>');
+  if (arrowIdx != -1) return result.slice(0, arrowIdx);
+
   return result;
 }
 
@@ -38,7 +43,10 @@ export class Svue {
   initData(data) {
     const destructured = data();
     Object.keys(destructured).forEach(key => {
-      const w = writable(destructured[key]);
+      let w = destructured[key];
+      if (!w.set || !w.subscribe) {
+        w = writable(w);
+      }
       this.writables[key] = w;
       Object.defineProperty(this, key, {
         get() {
@@ -46,12 +54,9 @@ export class Svue {
         },
         set(newValue) {
           w.set(newValue);
-          this.pingSubscriptions();
         },
-        subscribe(fn) {
-          w.subscribe(fn);
-        },
-      })
+      });
+      w.subscribe(() => this.pingSubscriptions());
     });
   }
 
@@ -72,10 +77,8 @@ export class Svue {
           get() {
             return get(d);
           },
-          subscribe(fn) {
-            d.subscribe(fn);
-          },
         });
+        d.subscribe(() => this.pingSubscriptions());
         keys.splice(i, 1);
         i--;
       }
@@ -91,7 +94,16 @@ export class Svue {
       throw new Error(`Invalid key: ${key}`);
     }
     this.writables[key].set(value);
-    this.pingSubscriptions();
+  }
+
+  update(fn) {
+    let key = getParamNames(fn);
+    if (key.length > 1) throw new Error("Only specify one arg for update");
+    key = key[0];
+    if (this.writables[key] == null) {
+      throw new Error(`Invalid key: ${key}`);
+    }
+    this.writables[key].update(fn);
   }
 
   get(key) {

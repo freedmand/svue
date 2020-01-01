@@ -21,3 +21,9 @@
   <button on:click={() => ($sv.x += 1)}>Increment X</button>
   <button on:click={() => ($sv.y += 1)}>Increment Y</button>
 </div>
+
+<div>Tweened value: {$sv.tweened}</div>
+
+<button on:click={() => $sv.update(tweened => tweened + 20)}>
+  Increment by 20
+</button>
