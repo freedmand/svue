@@ -44,7 +44,7 @@ export class Svue {
     const destructured = data();
     Object.keys(destructured).forEach(key => {
       let w = destructured[key];
-      if (!w.set || !w.subscribe) {
+      if (w == null || !w.set || !w.subscribe) {
         w = writable(w);
       }
       this.writables[key] = w;
