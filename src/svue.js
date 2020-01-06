@@ -76,7 +76,7 @@ export class Svue {
           if (result && (typeof result.then) == 'function') {
             result.then((x) => setFn(x));
           } else {
-            return result;
+            setFn(result);
           }
         });
         this.writables[key] = d;
