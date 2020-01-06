@@ -17,6 +17,11 @@ export const sv = new Svue({
     z(x, y) {
       return x + y;
     },
+    delayed(x, y) {
+      return new Promise(resolve => {
+        setTimeout(() => resolve(x + y), 2000);
+      });
+    },
     greeting(name) {
       return `Hello ${name}!`;
     }

@@ -14,6 +14,7 @@
 
 <div>x: {$sv.x}</div>
 <div>y: {$sv.y}</div>
+<div>delayed sum: {$sv.delayed}</div>
 <div>a: {$sv.a}</div>
 <div>z: {$sv.z}</div>
 

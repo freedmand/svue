@@ -71,7 +71,14 @@ export class Svue {
         const args = getParamNames(computed[key]);
         if (!args.every(arg => this.writables[arg] != null)) continue;
         matched = true;
-        const d = derived(args.map(a => this.writables[a]), args => computed[key](...args));
+        const d = derived(args.map(a => this.writables[a]), (args, setFn) => {
+          const result = computed[key](...args);
+          if (result && (typeof result.then) == 'function') {
+            result.then((x) => setFn(x));
+          } else {
+            return result;
+          }
+        });
         this.writables[key] = d;
         Object.defineProperty(this, key, {
           get() {
