@@ -72,8 +72,9 @@ export class Svue {
         if (!args.every(arg => this.writables[arg] != null)) continue;
         matched = true;
         const d = derived(args.map(a => this.writables[a]), (args, setFn) => {
-          const result = computed[key](...args);
+          const result = computed[key].bind(this)(...args);
           if (result && (typeof result.then) == 'function') {
+            // Operate asynchronously if the function is a promise
             result.then((x) => setFn(x));
           } else {
             setFn(result);
