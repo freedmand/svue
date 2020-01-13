@@ -1,6 +1,6 @@
 {
   "name": "svue",
-  "version": "1.4",
+  "version": "1.4.0",
   "main": "src/svue.js",
   "devDependencies": {
     "cross-env": "^5.2.0",
