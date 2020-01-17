@@ -9,8 +9,14 @@ function getParamNames(func) {
   if (result === null) return [];
 
   // Personal additions to handle arrow functions
-  const arrowIdx = result.indexOf('=>');
-  if (arrowIdx != -1) return result.slice(0, arrowIdx);
+  let arrowResult;
+  if (Array.isArray(result) && result.length > 0) {
+    arrowResult = result[0];
+  } else {
+    arrowResult = result;
+  }
+  const arrowIdx = arrowResult.indexOf('=>');
+  if (arrowIdx != -1) return arrowResult.slice(0, arrowIdx);
 
   return result;
 }
