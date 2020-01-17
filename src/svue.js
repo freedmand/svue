@@ -9,14 +9,14 @@ function getParamNames(func) {
   if (result === null) return [];
 
   // Personal additions to handle arrow functions
-  let arrowResult;
   if (Array.isArray(result) && result.length > 0) {
-    arrowResult = result[0];
+    const arrowResult = result[0];
+    const arrowIdx = arrowResult.indexOf('=>');
+    if (arrowIdx != -1) return [arrowResult.substr(0, arrowIdx)];
   } else {
-    arrowResult = result;
+    const arrowIdx = result.indexOf('=>');
+    if (arrowIdx != -1) return result.slice(0, arrowIdx);
   }
-  const arrowIdx = arrowResult.indexOf('=>');
-  if (arrowIdx != -1) return arrowResult.slice(0, arrowIdx);
 
   return result;
 }
