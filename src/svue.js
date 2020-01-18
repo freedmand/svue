@@ -3,7 +3,7 @@ import { writable, get, derived } from 'svelte/store';
 // From https://stackoverflow.com/a/9924463
 const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 const ARGUMENT_NAMES = /([^\s,]+)/g;
-const QUICK_ARROW = /([a-zA-Z0-9$_]+)\s*=>/;
+const QUICK_ARROW = /^\s*([a-zA-Z0-9$_]+)\s*=>/;
 export function getParamNames(func) {
   const fnStr = func.toString().replace(STRIP_COMMENTS, '');
   const quickMatch = fnStr.match(QUICK_ARROW);
