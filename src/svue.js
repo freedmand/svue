@@ -3,20 +3,18 @@ import { writable, get, derived } from 'svelte/store';
 // From https://stackoverflow.com/a/9924463
 const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 const ARGUMENT_NAMES = /([^\s,]+)/g;
-function getParamNames(func) {
+const QUICK_ARROW = /([a-zA-Z0-9$_]+)\s*=>/;
+export function getParamNames(func) {
   const fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  const quickMatch = fnStr.match(QUICK_ARROW);
+  if (quickMatch != null) return [quickMatch[1]];
+
   const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
   if (result === null) return [];
 
   // Personal additions to handle arrow functions
-  if (Array.isArray(result) && result.length > 0) {
-    const arrowResult = result[0];
-    const arrowIdx = arrowResult.indexOf('=>');
-    if (arrowIdx != -1) return [arrowResult.substr(0, arrowIdx)];
-  } else {
-    const arrowIdx = result.indexOf('=>');
-    if (arrowIdx != -1) return result.slice(0, arrowIdx);
-  }
+  const arrowIdx = result.indexOf('=>');
+  if (arrowIdx != -1) return result.slice(0, arrowIdx);
 
   return result;
 }
