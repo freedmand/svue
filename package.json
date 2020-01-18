@@ -1,6 +1,6 @@
 {
   "name": "svue",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "main": "src/svue.js",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
