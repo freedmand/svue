@@ -27,6 +27,7 @@ export class Svue {
     this.subscribers = {};
     if (structure.data != null) this.initData(structure.data);
     if (structure.computed != null) this.initComputed(structure.computed);
+    if (structure.watch != null) this.initWatch(structure.watch);
   }
 
   subscribe(fn) {
@@ -96,6 +97,12 @@ export class Svue {
       }
       if (!matched) throw new Error("INVALID COMPUTED");
     }
+  }
+
+  initWatch(watch) {
+    Object.keys(watch).forEach(key => {
+      this.writables[key].subscribe(watch[key].bind(this));
+    });
   }
 
   set(key, value) {

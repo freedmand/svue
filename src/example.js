@@ -6,6 +6,7 @@ export const sv = new Svue({
     return {
       x: 2,
       y: 3,
+      k: 7,
       name: 'Bob',
       tweened: tweened(0)
     }
@@ -24,6 +25,11 @@ export const sv = new Svue({
     },
     greeting(name) {
       return `Hello ${name}!`;
+    }
+  },
+  watch: {
+    z(newZ) {
+      console.log('Received a new Z value', newZ, 'k is', this.k);
     }
   }
 });

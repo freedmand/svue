@@ -17,10 +17,12 @@
 <div>delayed sum: {$sv.delayed}</div>
 <div>a: {$sv.a}</div>
 <div>z: {$sv.z}</div>
+<div>k: {$sv.k}</div>
 
 <div>
   <button on:click={() => ($sv.x += 1)}>Increment X</button>
   <button on:click={() => ($sv.y += 1)}>Increment Y</button>
+  <button on:click={() => ($sv.k += 1)}>Increment K</button>
 </div>
 
 <div>Tweened value: {$sv.tweened}</div>
