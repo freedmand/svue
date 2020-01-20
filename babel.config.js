@@ -1,4 +1,4 @@
-{
+module.exports = {
   "env": {
     "test": {
       "plugins": [
@@ -6,4 +6,4 @@
       ]
     }
   }
-}
+};
