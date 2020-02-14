@@ -100,8 +100,9 @@ export class Svue {
   }
 
   initWatch(watch) {
+    const chain = watch.split('.');
     Object.keys(watch).forEach(key => {
-      this.writables[key].subscribe(watch[key].bind(this));
+      chain.reduce((x, k) => x.writables[k], this).subscribe(watch[key].bind(this));
     });
   }
 
